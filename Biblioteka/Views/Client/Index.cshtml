@@ -1,0 +1,79 @@
+﻿@model List<Biblioteka.Models.ClientViewModel>
+
+@{
+    ViewData["Title"] = "Client Details";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+
+@if (!string.IsNullOrWhiteSpace(successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btb-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+
+<form asp-action="Index" method="get">
+    <div>
+        <label for"SearchString">Search by</label>
+        <input type="text" value="@ViewData["CurrentFiltler"]" name="SearchString" placeholder="Name or Phone Number"/>
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </div>
+</form>
+
+<form>
+    <button asp-action="Create" asp-controller="Client" class="btn btn-primary">Create Client</button>
+    <table class="table table-responsive table-hover">
+        <thead>
+            <tr class="table-active">
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Numer</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null && Model.Any())
+            {
+                @foreach(var client in Model)
+                {
+                    <tr>
+                        <td>@client.Id</td>
+                        <td>@client.FirstName</td>
+                        <td>@client.LastName</td>
+                        <td>@client.PhoneNumber</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Client" asp-action="Edit" asp-route-id="@client.Id" class="btn btn-primary">Edit</a>
+                                <a asp-controller="Client" asp-action="Delete" asp-route-id="@client.Id" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                            No clients at this moment!
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

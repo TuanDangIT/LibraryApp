@@ -1,0 +1,45 @@
+﻿@model Biblioteka.Models.BookViewModel
+
+@{
+    ViewData["Title"] = "Delete a Book";
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+<form action="Delete" method="post">
+    <div class="mb-3">
+        <label class="form-label" >Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <input type="text" class="form-control" asp-for="Category" readonly />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Author</label>
+        <input type="text" class="form-control" asp-for="Author" readonly/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" asp-for="Title" readonly/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Realease Date</label>
+        <input type="date" class="form-control" asp-for="RealeaseDate" readonly/>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Quantity</label>
+        <input type="text" class="form-control" asp-for="Quantity" readonly />
+    </div>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Are you sure to delete?</button>
+    </div>
+</form>

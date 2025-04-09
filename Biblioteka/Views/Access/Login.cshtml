@@ -1,0 +1,42 @@
+﻿@model Biblioteka.Models.VMLogin;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <title>Login</title>
+</head>
+<body>
+    
+    <form asp-controller="Access" asp-action="Login" method="post" class="login">
+        <h1>Login</h1>
+        <input type="email" placeholder="Email" asp-for="Email"/>
+        <br />
+        <input type="password" placeholder="Password" asp-for="Password"/>
+        @*<br />
+        <br />*@
+        @*<label>
+            <input type="checkbox" asp-for="KeepLoggedIn"/>
+            Remember me
+        </label>*@
+        <br />
+        <br />
+        <button type="submit" class="button-center">Login</button>
+
+        @if(ViewData["ValidateMessage"] != null)
+        {
+            <br />
+            <br />
+            <label>
+                @ViewData["ValidateMessage"]
+            </label>
+        }
+    </form>
+   
+</body>
+</html>

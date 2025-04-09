@@ -1,0 +1,50 @@
+﻿@model Biblioteka.Models.OrderCreateViewModel
+
+@{
+    ViewData["Title"] = "Create an Order";
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+<form action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label">Expiry Date</label>
+        <input type="date" class="form-control" asp-for="ExpiryDate"/>
+        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select class="form-control" asp-for="ClientId">
+            @if (Model.Clients != null && Model.Clients.Any())
+            {
+                @foreach (var client in Model.Clients)
+                {
+                    <option value="@client.ClientId">@client.FullName</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Books</label>
+        <select class="form-control" asp-for="BookIds" multiple>
+            @if (Model.Books != null && Model.Books.Any())
+            {
+                @foreach (var book in Model.Books)
+                {
+                    <option value="@book.BookId">@book.Author:@book.Title</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

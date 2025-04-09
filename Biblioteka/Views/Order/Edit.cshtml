@@ -1,0 +1,41 @@
+﻿@model Biblioteka.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Edit an Order";
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+<form action="Edit" method="post">
+    <div class="mb-3">
+        <label class="form-label" >Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Rental Date</label>
+        <input type="date" class="form-control" asp-for="RentalDate"/>
+        <span asp-validation-for="RentalDate" class="text-danger"></span>
+    </div>
+@*     <div class="mb-3">
+        <label class="form-label">Client Id</label>
+        <input type="text" class="form-control" asp-for="IdClient"/>
+        <span asp-validation-for="IdClient" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Book Id</label>
+        <input type="text" class="form-control" asp-for="IdBook"/>
+        <span asp-validation-for="IdBook" class="text-danger"></span>
+    </div> *@
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>

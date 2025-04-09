@@ -1,0 +1,110 @@
+﻿@model List<Biblioteka.Models.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Order Details";
+    var successMessage = TempData["successMessage"]?.ToString();
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+
+@if (!string.IsNullOrWhiteSpace(successMessage))
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong>@successMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+else if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btb-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+
+<form asp-action="Index" method="get">
+    <div>
+        <label for"SearchString">Search by</label>
+        <input type="text" value="@ViewData["CurrentFiltler"]" name="SearchString" placeholder="Client's name'" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+
+
+@* <form>
+    <button asp-action="Sort" class="btn btn-primary mb-2 mt-2">Sort By Date</button>
+</form> *@
+<form>
+    <button asp-action="Create" asp-controller="Order" class="btn btn-primary">Create Order</button>
+    <table class="table table-responsive table-hover">
+        <thead>
+            <tr class="table-active">
+                <th>Id</th>
+                <th>Return status</th>
+                <th>Rental date</th>
+                <th>Expiry date</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null && Model.Any())
+            {
+                @foreach(var order in Model)
+                {
+                    <tr>
+                        <td>@order.Id</td>
+                        <td>@order.IsReturned</td>
+                        <td>@order.RentalDate.ToString("dd/MM/yyyy")</td>
+                        <td>@order.ExpiryDate.ToString("dd/MM/yyyy")</td>
+                        <td>@order.FirstName</td>
+                        <td>@order.LastName</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-controller="Order" asp-action="Details" asp-route-orderId="@order.Id" class="btn btn-warning">Details</a>
+                                <a href="javascript:void(0)" class="btn btn-dark" onclick="setReturnStatus(@order.Id)">Return</a>
+                                <a asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div>
+                            No orders at this moment!
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<script>
+    async function setReturnStatus(orderId) {
+        if (window.confirm("Are you sure?")) {
+            const response = await fetch(`/Order/${orderId}/Return`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                alert('Order return status updated successfully.');
+                location.reload(); // Reload the page to update the UI
+            } else {
+                alert('Failed to update return status.');
+            }
+        } else {
+            return;
+        }
+    }
+</script>

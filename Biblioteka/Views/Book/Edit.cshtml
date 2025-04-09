@@ -1,0 +1,60 @@
+﻿@model Biblioteka.Models.BookViewModel
+
+@{
+    ViewData["Title"] = "Edit a Book";
+    var errorMessage = TempData["errorMessage"]?.ToString();
+}
+<h3>@ViewData["Title"]</h3>
+<hr />
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong>@errorMessage
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+    </div>
+    
+}
+<form action="Edit" method="post">
+    <div class="mb-3">
+        <label class="form-label" >Id</label>
+        <input type="text" class="form-control" asp-for="Id" readonly />
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select class="form-control" asp-for="Category">
+            <option value="SciFi">Sci-Fi</option>
+            <option value="Action">Action</option>
+            <option value="Horror">Horror</option>
+            <option value="Fantasy">Fantasy</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Author</label>
+        <input type="text" class="form-control" asp-for="Author"/>
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" asp-for="Title"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Realease Date</label>
+        <input type="date" class="form-control" asp-for="RealeaseDate"/>
+        <span asp-validation-for="RealeaseDate" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Keywords</label>
+        <input type="text" class="form-control" asp-for="Keywords" />
+        <span asp-validation-for="Keywords" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Quantity</label>
+        <input type="text" class="form-control" asp-for="Quantity" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
